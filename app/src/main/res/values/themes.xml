@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PanaderiaOrellana" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colores Principales Panadería Orellana -->
+        <item name="colorPrimary">@color/cafe_oscuro</item>
+        <item name="colorOnPrimary">@color/blanco_crema</item>
+        <item name="colorPrimaryContainer">@color/marron_tostado</item>
+        <item name="colorOnPrimaryContainer">@color/cafe_negro</item>
+
+        <item name="colorSecondary">@color/marron_tostado</item>
+        <item name="colorOnSecondary">@color/cafe_negro</item>
+        <item name="colorSecondaryContainer">#10D4A373</item>
+
+        <item name="colorTertiary">@color/marron_tostado</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/cafe_negro</item>
+        <item name="colorOnSurfaceVariant">@color/cafe_negro</item>
+
+        <item name="android:windowBackground">@color/blanco_crema</item>
+        <item name="android:textColorPrimary">@color/cafe_negro</item>
+        <item name="android:textColorSecondary">@color/cafe_oscuro</item>
+
+        <!-- Foco, cursores y resaltados de controles sin rastro de morado -->
+        <item name="colorControlActivated">@color/marron_tostado</item>
+        <item name="colorControlHighlight">#20D4A373</item>
+        <item name="colorAccent">@color/marron_tostado</item>
+        <item name="android:colorAccent">@color/marron_tostado</item>
+    </style>
+
+    <style name="Theme.PanaderiaOrellana" parent="Base.Theme.PanaderiaOrellana" />
+</resources>

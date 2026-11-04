@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootEstadisticas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco_crema"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".EstadisticasActivity">
+
+    <!-- Toolbar con Botón Volver al Panel -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barraSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cafe_oscuro"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="3. Estadisticas - Panel"
+        app:titleTextColor="@color/blanco_crema" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Selector Libre de Encuesta / Sucursal -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar Encuesta o Sucursal a Consultar:"
+                android:textColor="@color/cafe_negro"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/marron_tostado"
+                app:strokeWidth="1.5dp">
+
+                <Spinner
+                    android:id="@+id/spSeleccionarEncuestaEstadisticas"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:spinnerMode="dropdown" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tarjeta Resumen General (tarjetaResumenGeneral) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tarjetaResumenGeneral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Etiqueta Turno (tvEtiquetaTurno) -->
+                    <TextView
+                        android:id="@+id/tvEtiquetaTurno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Turno: Mañana | Total Encuestados: 15"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <!-- Nota Promedio (tvNotaPromedio) -->
+                    <TextView
+                        android:id="@+id/tvNotaPromedio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="8.5 / 10.0"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
+
+                    <!-- Indicador Visual del Semáforo (vistaSemaforo) -->
+                    <View
+                        android:id="@+id/vistaSemaforo"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/shape_circle"
+                        android:backgroundTint="@color/semaforo_verde_on" />
+
+                    <!-- Diagnóstico / Estado del Semáforo (tvEstadoSemaforo) -->
+                    <TextView
+                        android:id="@+id/tvEstadoSemaforo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:text="Servicio Óptimo - Excelente nivel de calidad"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tarjeta Gráfica Comparativa de Barras (graficaBarras) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Gráfica Comparativa entre Preguntas"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Contenedor Visual de Gráfica de Barras (graficaBarras) -->
+                    <LinearLayout
+                        android:id="@+id/graficaBarras"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tarjeta Métricas Detalladas (rvMetricasDetalladas) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Desglose por Pregunta y Porcentajes Sí/No"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Lista de Métricas Detalladas (rvMetricasDetalladas) -->
+                    <LinearLayout
+                        android:id="@+id/rvMetricasDetalladas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Panadería Orellana</string>
+    <string name="titulo_login">Control de Calidad y Servicio</string>
+    <string name="label_usuario">Usuario o Correo</string>
+    <string name="label_password">Contraseña</string>
+    <string name="btn_iniciar_sesion">Iniciar Sesión</string>
+    <string name="error_credenciales_invalidas">Usuario o contraseña incorrectos. Intente de nuevo.</string>
+    <string name="error_campos_vacios">Por favor, llene todos los campos.</string>
+
+    <!-- Vista 2: Menú Principal -->
+    <string name="titulo_menu">Panel de Control</string>
+    <string name="btn_cerrar_sesion">Cerrar Sesión</string>
+    <string name="titulo_card_qr">Evaluación por QR</string>
+    <string name="desc_card_qr">Escaneo de código QR y llenado de encuesta</string>
+    <string name="titulo_card_vaciado">Vaciado de Datos</string>
+    <string name="desc_card_vaciado">Acumulado de evaluaciones del turno</string>
+    <string name="titulo_card_estadisticas">Estadísticas y Semáforo</string>
+    <string name="desc_card_estadisticas">Promedios, gráficos e indicador de calidad</string>
+    <string name="titulo_card_notas">Bitácora y Notas</string>
+    <string name="desc_card_notas">Registro de incidentes y observaciones</string>
+    <string name="titulo_card_encuestas">Gestión de Encuestas</string>
+    <string name="desc_card_encuestas">Administración de usuarios y formularios</string>
+
+    <!-- Vista 3: Código QR y Encuesta -->
+    <string name="titulo_qr_pantalla">Evaluación y Código QR</string>
+    <string name="instrucciones_qr">Escanee el código QR con su celular o complete el siguiente formulario de satisfacción:</string>
+    <string name="label_pregunta_atencion">1. Atención del Personal</string>
+    <string name="label_pregunta_calidad">2. Calidad del Pan</string>
+    <string name="label_pregunta_limpieza">3. Limpieza del Establecimiento</string>
+    <string name="hint_comentarios">Escriba aquí sus comentarios o sugerencias&#8230;</string>
+    <string name="btn_enviar_encuesta">Enviar Encuesta</string>
+    <string name="msg_encuesta_guardada">¡Muchas gracias! Encuesta registrada en el sistema.</string>
+
+    <!-- Vista 4: Vaciado Dinámico de Datos -->
+    <string name="titulo_vaciado">Vaciado Dinámico de Datos</string>
+    <string name="btn_verificar_encuestas">Verificar / Actualizar</string>
+    <string name="btn_calcular_promedio">Calcular Promedio</string>
+    <string name="btn_limpiar_datos">Limpiar Datos del Turno</string>
+    <string name="msg_datos_limpiados">Se borraron las encuestas del turno actual.</string>
+    <string name="sin_encuestas">No hay encuestas registradas en este turno.</string>
+
+    <!-- Vista 5: Estadísticas y Semáforo -->
+    <string name="titulo_estadisticas">Estadísticas y Semáforo de Calidad</string>
+    <string name="diag_verde">Excelente nivel de servicio y calidad en la sucursal.</string>
+    <string name="diag_amarillo">Rendimiento regular. Se requiere atención en áreas de oportunidad.</string>
+    <string name="diag_rojo">Alerta crítica. Requiere intervención inmediata en la sucursal.</string>
+    <string name="diag_sin_datos">Sin encuestas registradas para calcular estadísticas.</string>
+
+    <!-- Vista 6: Bitácora y Notas -->
+    <string name="titulo_notas">Bitácora y Notas del Turno</string>
+    <string name="hint_titulo_nota">Título o asunto de la observación&#8230;</string>
+    <string name="hint_detalle_nota">Redacte aquí la descripción detallada del evento&#8230;</string>
+    <string name="btn_guardar_nota">Guardar Nota</string>
+    <string name="msg_nota_guardada">Nota guardada exitosamente en la bitácora.</string>
+    <string name="sin_notas">No hay notas o eventos registrados en el turno.</string>
+
+    <!-- Vista 7: Gestión de Encuestas (Google Forms) -->
+    <string name="titulo_encuestas">Gestión de Encuestas (Google Forms)</string>
+    <string name="hint_nombre_encuesta">Nombre de la encuesta&#8230;</string>
+    <string name="hint_sucursal_encuesta">Sucursal correspondiente&#8230;</string>
+    <string name="hint_enlace_encuesta">Enlace de Google Forms (URL)&#8230;</string>
+    <string name="btn_guardar_encuesta">Guardar Encuesta</string>
+    <string name="msg_encuesta_config_guardada">Encuesta de Google Forms registrada correctamente.</string>
+    <string name="error_campos_encuesta_vacios">Por favor complete todos los datos de la encuesta.</string>
+    <string name="error_enlace_invalido">El enlace debe comenzar con http:// o https://</string>
+</resources>

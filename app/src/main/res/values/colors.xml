@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta de colores Panadería Orellana -->
+    <color name="blanco_crema">#FAF8F5</color>
+    <color name="cafe_oscuro">#4A3525</color>
+    <color name="marron_tostado">#D4A373</color>
+    <color name="terracota">#E07A5F</color>
+    <color name="cafe_negro">#2D231E</color>
+
+    <!-- Semáforo -->
+    <color name="semaforo_verde_on">#4CAF50</color>
+    <color name="semaforo_verde_off">#DCEDC8</color>
+    <color name="semaforo_amarillo_on">#FFCA28</color>
+    <color name="semaforo_amarillo_off">#FFF9C4</color>
+    <color name="semaforo_rojo_on">#E53935</color>
+    <color name="semaforo_rojo_off">#FFCDD2</color>
+</resources>

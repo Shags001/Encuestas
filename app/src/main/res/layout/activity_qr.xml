@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootQr"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco_crema"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".QrActivity">
+
+    <!-- Toolbar con Botón Volver al Panel -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barraSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cafe_oscuro"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="1. Ver QR - Panel"
+        app:titleTextColor="@color/blanco_crema" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Selector de Encuesta / Sucursal -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar Encuesta Registrada:"
+                android:textColor="@color/cafe_negro"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/marron_tostado"
+                app:strokeWidth="1.5dp">
+
+                <Spinner
+                    android:id="@+id/spSeleccionarEncuesta"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:spinnerMode="dropdown" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tarjeta Principal del Código QR -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Indicador de Estado en Vivo -->
+                    <TextView
+                        android:id="@+id/tvEstadoQr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="#154CAF50"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        android:text="ESTADO: ACTIVO"
+                        android:textColor="@color/semaforo_verde_on"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <!-- Título de Encuesta Activa -->
+                    <TextView
+                        android:id="@+id/tvTituloEncuestaActiva"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Encuesta de Satisfacción General"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo Sucursal -->
+                    <TextView
+                        android:id="@+id/tvSubtituloSucursal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Panadería Orellana Casa Matriz"
+                        android:textColor="@color/cafe_oscuro"
+                        android:textSize="14sp" />
+
+                    <!-- Marco del Código QR (tarjetaContenedorQr) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/tarjetaContenedorQr"
+                        android:layout_width="220dp"
+                        android:layout_height="220dp"
+                        android:layout_marginBottom="16dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/marron_tostado"
+                        app:strokeWidth="3dp">
+
+                        <ImageView
+                            android:id="@+id/ivCodigoQr"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Código QR de la Encuesta"
+                            android:padding="16dp"
+                            android:src="@drawable/ic_qr_code" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Instrucciones para el cliente -->
+                    <TextView
+                        android:id="@+id/tvInstrucciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Presente este código QR al cliente para calificar el servicio en Google Forms"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Botón Probar Enlace (btnProbarEnlace) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProbarEnlace"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Probar Enlace en el Navegador"
+                android:textColor="@color/cafe_negro"
+                android:textSize="15sp"
+                app:backgroundTint="@color/marron_tostado"
+                app:cornerRadius="8dp" />
+
+            <!-- Botón Compartir Enlace (btnCompartirEnlace) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCompartirEnlace"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:text="Compartir o Enviar Enlace"
+                android:textColor="@color/blanco_crema"
+                android:textSize="15sp"
+                app:backgroundTint="@color/cafe_oscuro"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

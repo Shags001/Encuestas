@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Icono de Pan / Panadería -->
+    <path
+        android:fillColor="#4A3525"
+        android:pathData="M3,12C3,8.13 6.13,5 10,5C12.38,5 14.47,6.19 15.74,8.03C17.47,7.38 19.49,7.84 20.71,9.26C22.14,10.92 21.94,13.44 20.28,14.87C20.74,15.78 21,16.85 21,18C21,19.66 19.66,21 18,21L6,21C4.34,21 3,19.66 3,18C3,16.85 3.26,15.78 3.72,14.87C2.06,13.44 1.86,10.92 3.29,9.26C3.19,10.15 3,11.06 3,12Z" />
+    <path
+        android:fillColor="#D4A373"
+        android:pathData="M7,12 Q9,10 11,12 T15,12 T19,12"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FAF8F5" />
+</vector>

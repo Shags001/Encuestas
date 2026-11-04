@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootEncuestas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco_crema"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".EncuestasActivity">
+
+    <!-- Toolbar con Botón Volver al Panel -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barraSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cafe_oscuro"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="5. Gestionar encuestas - Panel"
+        app:titleTextColor="@color/blanco_crema" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tarjeta Formulario Registrar Nueva Encuesta de Google Forms -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Registrar Nueva Encuesta de Google Forms"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Nombre de la Encuesta -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_nombre_encuesta"
+                        app:boxStrokeColor="@color/marron_tostado">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etNombreEncuesta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:textColor="@color/cafe_negro" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Sucursal -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/hint_sucursal_encuesta"
+                        app:boxStrokeColor="@color/marron_tostado">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSucursalEncuesta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/cafe_negro" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Enlace de Google Forms -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/hint_enlace_encuesta"
+                        app:boxStrokeColor="@color/marron_tostado">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEnlaceEncuesta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri"
+                            android:textColor="@color/cafe_negro" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Botón Guardar Encuesta -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGuardarEncuesta"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/btn_guardar_encuesta"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="15sp"
+                        app:backgroundTint="@color/marron_tostado"
+                        app:cornerRadius="8dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tarjeta Listado de Encuestas -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Catálogo de Encuestas Registradas"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Listado de encuestas (rvListaEncuestas) -->
+                    <LinearLayout
+                        android:id="@+id/rvListaEncuestas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="opciones_calificacion">
+        <item>5 - Excelente</item>
+        <item>4 - Bueno</item>
+        <item>3 - Regular</item>
+        <item>2 - Malo</item>
+        <item>1 - Pésimo</item>
+    </string-array>
+
+    <string-array name="tipos_pregunta_array">
+        <item>Escala 1-5</item>
+        <item>Escala 1-10</item>
+        <item>Sí/No (Dicotómica)</item>
+        <item>Opción Múltiple</item>
+    </string-array>
+</resources>
