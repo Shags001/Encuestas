@@ -17,7 +17,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/cafe_oscuro"
         app:navigationIcon="@drawable/ic_back"
-        app:title="3. Estadisticas - Panel"
+        app:title="3. Estadisticas y Reportes"
         app:titleTextColor="@color/blanco_crema" />
 
     <ScrollView
@@ -31,33 +31,122 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Selector Libre de Encuesta / Sucursal -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seleccionar Encuesta o Sucursal a Consultar:"
-                android:textColor="@color/cafe_negro"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
+            <!-- Ficha de Filtros de Encuesta y Turno -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp"
-                app:strokeColor="@color/marron_tostado"
-                app:strokeWidth="1.5dp">
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
 
-                <Spinner
-                    android:id="@+id/spSeleccionarEncuestaEstadisticas"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Filtros de Reporte:"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <!-- Selector de Encuesta / Sucursal -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Encuesta o Sucursal:"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/marron_tostado"
+                        app:strokeWidth="1.5dp">
+
+                        <Spinner
+                            android:id="@+id/spSeleccionarEncuestaEstadisticas"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:spinnerMode="dropdown" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Selector de Turno (Mañana / Tarde / Ambos) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Filtro de Turno:"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/marron_tostado"
+                        app:strokeWidth="1.5dp">
+
+                        <Spinner
+                            android:id="@+id/spFiltroTurnoEstadisticas"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:spinnerMode="dropdown" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Botones Exportar y Compartir Reporte -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnExportarPDF"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="4dp"
+                            android:text="Exportar PDF"
+                            android:textColor="@color/blanco_crema"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/cafe_oscuro"
+                            app:cornerRadius="8dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCompartirReporte"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="4dp"
+                            android:text="Compartir Reporte"
+                            android:textColor="@color/cafe_negro"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="@color/marron_tostado"
+                            app:cornerRadius="8dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- SECCIÓN A: SEMÁFORO Y PROMEDIO DE CALIDAD (Preguntas de Escala) -->
@@ -84,7 +173,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <!-- Etiqueta Turno (tvEtiquetaTurno) -->
+                    <!-- Etiqueta Turno -->
                     <TextView
                         android:id="@+id/tvEtiquetaTurno"
                         android:layout_width="wrap_content"
@@ -94,7 +183,7 @@
                         android:textColor="@color/cafe_oscuro"
                         android:textSize="13sp" />
 
-                    <!-- Nota Promedio (tvNotaPromedio) -->
+                    <!-- Nota Promedio -->
                     <TextView
                         android:id="@+id/tvNotaPromedio"
                         android:layout_width="wrap_content"
@@ -107,7 +196,7 @@
                         android:textSize="36sp"
                         android:textStyle="bold" />
 
-                    <!-- Indicador Visual del Semáforo (vistaSemaforo) -->
+                    <!-- Indicador Visual del Semáforo -->
                     <View
                         android:id="@+id/vistaSemaforo"
                         android:layout_width="70dp"
@@ -116,7 +205,7 @@
                         android:background="@drawable/shape_circle"
                         android:backgroundTint="@color/semaforo_verde_on" />
 
-                    <!-- Diagnóstico del Semáforo (tvEstadoSemaforo) -->
+                    <!-- Diagnóstico del Semáforo -->
                     <TextView
                         android:id="@+id/tvEstadoSemaforo"
                         android:layout_width="match_parent"
@@ -128,7 +217,7 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <!-- Contenedor Gráficas de Escala (containerGraficaEscalas) -->
+                    <!-- Contenedor Gráficas de Escala -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -184,7 +273,7 @@
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
-                    <!-- Contenedor Gráficas Sí / No (containerGraficaSiNo) -->
+                    <!-- Contenedor Gráficas Sí / No -->
                     <LinearLayout
                         android:id="@+id/containerGraficaSiNo"
                         android:layout_width="match_parent"

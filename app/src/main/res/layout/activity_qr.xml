@@ -112,7 +112,7 @@
                         android:textColor="@color/cafe_oscuro"
                         android:textSize="14sp" />
 
-                    <!-- Marco del Código QR (tarjetaContenedorQr) -->
+                    <!-- Marco del Código QR -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/tarjetaContenedorQr"
                         android:layout_width="220dp"
@@ -133,7 +133,7 @@
                             android:src="@drawable/ic_qr_code" />
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Instrucciones para el cliente -->
+                    <!-- Instrucciones -->
                     <TextView
                         android:id="@+id/tvInstrucciones"
                         android:layout_width="match_parent"
@@ -146,27 +146,50 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botón Probar Enlace (btnProbarEnlace) -->
+            <!-- Botones de Acción para Descargar y Compartir QR -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGuardarQr"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="4dp"
+                    android:text="Descargar QR (PNG)"
+                    android:textColor="@color/blanco_crema"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/cafe_oscuro"
+                    app:cornerRadius="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCompartirQr"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="4dp"
+                    android:text="Compartir Imagen"
+                    android:textColor="@color/cafe_negro"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/marron_tostado"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnProbarEnlace"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Probar Enlace en el Navegador"
-                android:textColor="@color/cafe_negro"
-                android:textSize="15sp"
-                app:backgroundTint="@color/marron_tostado"
-                app:cornerRadius="8dp" />
-
-            <!-- Botón Compartir Enlace (btnCompartirEnlace) -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCompartirEnlace"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:text="Compartir o Enviar Enlace"
+                android:text="Probar Enlace en Navegador"
                 android:textColor="@color/blanco_crema"
-                android:textSize="15sp"
-                app:backgroundTint="@color/cafe_oscuro"
+                android:textSize="14sp"
+                app:backgroundTint="@color/cafe_negro"
                 app:cornerRadius="8dp" />
 
         </LinearLayout>

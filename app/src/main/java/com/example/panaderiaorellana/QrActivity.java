@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,10 +25,12 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-// Vista 3: Pantalla del Código QR y Verificación de Enlace
+// Vista 3: Pantalla del Código QR, Descarga de Imagen PNG y Compartir
 public class QrActivity extends AppCompatActivity {
 
     private MaterialToolbar barraSuperior;
@@ -38,15 +41,20 @@ public class QrActivity extends AppCompatActivity {
     private CardView tarjetaContenedorQr;
     private ImageView ivCodigoQr;
     private TextView tvInstrucciones;
+
+    private Button btnGuardarQr;
+    private Button btnCompartirQr;
     private Button btnProbarEnlace;
-    private Button btnCompartirEnlace;
 
     private EncuestaConfig encuestaSeleccionada = null;
+    private Bitmap qrBitmapActual = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
+
+        DatosMemoria.inicializarDatos(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootQr), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -62,8 +70,10 @@ public class QrActivity extends AppCompatActivity {
         tarjetaContenedorQr = findViewById(R.id.tarjetaContenedorQr);
         ivCodigoQr = findViewById(R.id.ivCodigoQr);
         tvInstrucciones = findViewById(R.id.tvInstrucciones);
+
+        btnGuardarQr = findViewById(R.id.btnGuardarQr);
+        btnCompartirQr = findViewById(R.id.btnCompartirQr);
         btnProbarEnlace = findViewById(R.id.btnProbarEnlace);
-        btnCompartirEnlace = findViewById(R.id.btnCompartirEnlace);
 
         if (barraSuperior != null) {
             barraSuperior.setNavigationOnClickListener(v -> finish());
@@ -71,8 +81,9 @@ public class QrActivity extends AppCompatActivity {
 
         cargarSpinnerEncuestas();
 
+        btnGuardarQr.setOnClickListener(v -> guardarImagenQR());
+        btnCompartirQr.setOnClickListener(v -> compartirImagenQR());
         btnProbarEnlace.setOnClickListener(v -> probarEnlace());
-        btnCompartirEnlace.setOnClickListener(v -> compartirEnlace());
     }
 
     private void cargarSpinnerEncuestas() {
@@ -113,7 +124,6 @@ public class QrActivity extends AppCompatActivity {
         });
     }
 
-    // Actualiza los textos, genera el código QR escaneable real y cambia el indicador de estado
     private void actualizarDetallesEncuesta() {
         if (encuestaSeleccionada != null) {
             tvTituloEncuestaActiva.setText(encuestaSeleccionada.getNombreEncuesta());
@@ -127,12 +137,10 @@ public class QrActivity extends AppCompatActivity {
                 tvEstadoQr.setTextColor(getColor(R.color.terracota));
             }
 
-            // Generar el código QR dinámico real utilizando la librería ZXing
             generarCodigoQRReal(encuestaSeleccionada.getEnlaceGoogleForms());
         }
     }
 
-    // Genera la imagen Bitmap del código QR en tiempo real para la URL indicada usando ZXing
     private void generarCodigoQRReal(String url) {
         if (url != null && !url.isEmpty()) {
             try {
@@ -148,14 +156,74 @@ public class QrActivity extends AppCompatActivity {
                     }
                 }
 
-                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-                ivCodigoQr.setImageBitmap(bitmap);
+                qrBitmapActual = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                qrBitmapActual.setPixels(pixels, 0, width, 0, 0, width, height);
+                ivCodigoQr.setImageBitmap(qrBitmapActual);
             } catch (Exception e) {
                 ivCodigoQr.setImageResource(R.drawable.ic_qr_code);
+                qrBitmapActual = null;
             }
         } else {
             ivCodigoQr.setImageResource(R.drawable.ic_qr_code);
+            qrBitmapActual = null;
+        }
+    }
+
+    // Guarda el código QR actual como archivo PNG y permite visualizarlo / descargarlo
+    private void guardarImagenQR() {
+        if (qrBitmapActual == null) {
+            Toast.makeText(this, "No hay una imagen de código QR disponible", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            File imageFile = new File(getCacheDir(), "QR_Panaderia_Orellana.png");
+            FileOutputStream out = new FileOutputStream(imageFile);
+            qrBitmapActual.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+            Toast.makeText(this, "Código QR descargado / generado correctamente", Toast.LENGTH_SHORT).show();
+
+            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "image/png");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(intent, "Ver / Abrir Código QR Descargado"));
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al descargar el código QR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Compartir el código QR como imagen PNG adjunta vía WhatsApp, Email, etc.
+    private void compartirImagenQR() {
+        if (qrBitmapActual == null) {
+            Toast.makeText(this, "No hay una imagen de código QR disponible", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            File imageFile = new File(getCacheDir(), "QR_Panaderia_Orellana.png");
+            FileOutputStream out = new FileOutputStream(imageFile);
+            qrBitmapActual.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/png");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Código QR para evaluación de servicio - Panadería Orellana ("
+                    + (encuestaSeleccionada != null ? encuestaSeleccionada.getSucursal() : "") + ")\nLink: "
+                    + (encuestaSeleccionada != null ? encuestaSeleccionada.getEnlaceGoogleForms() : ""));
+            shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(shareIntent, "Compartir Imagen del QR"));
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al compartir la imagen del QR", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -170,21 +238,6 @@ public class QrActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(this, "No hay un enlace configurado para esta encuesta", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void compartirEnlace() {
-        if (encuestaSeleccionada != null && encuestaSeleccionada.getEnlaceGoogleForms() != null) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Le invitamos a calificar nuestro servicio en Panadería Orellana: "
-                    + encuestaSeleccionada.getEnlaceGoogleForms());
-            sendIntent.setType("text/plain");
-
-            Intent shareIntent = Intent.createChooser(sendIntent, "Compartir Encuesta");
-            startActivity(shareIntent);
-        } else {
-            Toast.makeText(this, "No hay una encuesta seleccionada para compartir", Toast.LENGTH_SHORT).show();
         }
     }
 }
