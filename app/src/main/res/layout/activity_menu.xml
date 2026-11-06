@@ -23,22 +23,41 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/cafe_oscuro"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardBackgroundColor="@color/marron_tostado"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    app:contentPadding="2dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Logo Panadería Orellana"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img"/>
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/btnLogout"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <!-- Nombre del Usuario -->
                     <TextView
                         android:id="@+id/tvNombreUsuario"
                         android:layout_width="wrap_content"
@@ -48,190 +67,317 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <!-- Nombre de la Sucursal -->
                     <TextView
                         android:id="@+id/tvNombreSucursal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="3dp"
                         android:text="Panadería Orellana Casa Matriz"
                         android:textColor="@color/marron_tostado"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
+
                 </LinearLayout>
 
-                <!-- Botón Cerrar Sesión -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLogout"
-                    style="@style/Widget.Material3.Button.TextButton"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/btn_cerrar_sesion"
-                    android:textColor="@color/terracota"
-                    android:textSize="13sp" />
-            </RelativeLayout>
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnConfiguracion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="35dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="Configuración"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="13sp"
+                        app:backgroundTint="@color/marron_tostado"
+                        app:cornerRadius="22dp"
+                        app:icon="@drawable/ic_menu_config"
+                        app:iconGravity="textStart"
+                        app:iconPadding="6dp"
+                        app:iconSize="16dp"
+                        app:iconTint="@color/cafe_negro"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogout"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="35dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="Cerrar Sesión"
+                        android:textColor="@color/blanco_crema"
+                        android:textSize="13sp"
+                        app:cornerRadius="22dp"
+                        app:strokeColor="@color/terracota"
+                        app:strokeWidth="1.5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Título de Navegación -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:text="@string/titulo_menu"
             android:textColor="@color/cafe_negro"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
-        <!-- Opción 1: Ver QR -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnIrQr"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="12dp"
+            android:text="¿Qué necesitas hacer ahora?"
+            android:textColor="#5E5249"
+            android:textSize="14sp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnIrQr"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1. Ver QR"
-                    android:textColor="@color/cafe_negro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:minHeight="170dp"
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardBackgroundColor="@color/cafe_oscuro"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_menu_qr"
+                            app:tint="@color/blanco_crema"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Mostrar y Generar QR"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Permite visualizar el código QR por encuesta o generarlo en caso que la encuesta no posea uno"
+                        android:textColor="#5E5249"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnIrVaciado"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Visualización del código QR e inspección del enlace activo"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:minHeight="170dp"
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-        <!-- Opción 2: Ingreso de datos -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnIrVaciado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardBackgroundColor="@color/marron_tostado"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_menu_registrar"
+                            app:tint="@color/cafe_negro"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Vaciado de datos"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Permite ingresar los resultados obtenidos de google forms"
+                        android:textColor="#5E5249"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnIrEstadisticas"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2. Ingreso de datos"
-                    android:textColor="@color/cafe_negro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:minHeight="170dp"
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardBackgroundColor="@color/semaforo_verde_on"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_menu_estadisticas"
+                            app:tint="@color/cafe_negro"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Estadísticas"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Muestra los promedios, gráficas comparativas y un indicador de nivel de calidad"
+                        android:textColor="#5E5249"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnIrNotas"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Transcripción del resumen de preguntas y respuestas del turno"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:minHeight="170dp"
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-        <!-- Opción 3: Estadisticas -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnIrEstadisticas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardBackgroundColor="@color/terracota"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_menu_bitacora"
+                            app:tint="@color/cafe_negro"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3. Estadisticas"
-                    android:textColor="@color/cafe_negro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Consulta de promedios, gráfica comparativa y Semáforo de Calidad"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Anotaciones"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
 
-        <!-- Opción 4: Quejas y notas -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnIrNotas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Anota observaciones remarcadas por los clientes en las encuestas y permite al empleado llevar una bitácora del turno"
+                        android:textColor="#5E5249"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+            </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4. Quejas y notas"
-                    android:textColor="@color/cafe_negro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Registro de observaciones, faltas operativas y reinicio de corte"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Opción 5: Gestionar encuestas -->
         <androidx.cardview.widget.CardView
             android:id="@+id/btnIrEncuestas"
             android:layout_width="match_parent"
@@ -240,33 +386,62 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
+            app:cardBackgroundColor="@color/marron_tostado"
+            app:cardCornerRadius="16dp"
             app:cardElevation="3dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:gravity="center_vertical"
+                android:minHeight="88dp"
+                android:orientation="horizontal"
+                android:padding="14dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5. Gestionar encuestas"
-                    android:textColor="@color/cafe_negro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:cardBackgroundColor="@color/cafe_negro"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_menu_encuestas"
+                        app:tint="@color/blanco_crema"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Administración del catálogo de encuestas de Google Forms por sucursal"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mis encuestas"
+                        android:textColor="@color/cafe_negro"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Agrega y activa los formularios de cada sucursal"
+                        android:textColor="#5E5249"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
 
     </LinearLayout>
 </ScrollView>

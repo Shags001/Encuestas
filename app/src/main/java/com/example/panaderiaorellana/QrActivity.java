@@ -1,6 +1,7 @@
 package com.example.panaderiaorellana;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,6 @@ import java.util.List;
 // Vista 3: Pantalla del Código QR y Verificación de Enlace
 public class QrActivity extends AppCompatActivity {
 
-    // Componentes de la vista QR
     private MaterialToolbar barraSuperior;
     private Spinner spSeleccionarEncuesta;
     private TextView tvEstadoQr;
@@ -38,7 +41,6 @@ public class QrActivity extends AppCompatActivity {
     private Button btnProbarEnlace;
     private Button btnCompartirEnlace;
 
-    // Encuesta actualmente seleccionada
     private EncuestaConfig encuestaSeleccionada = null;
 
     @Override
@@ -46,14 +48,12 @@ public class QrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
 
-        // Respetamos la barra de estado superior del celular
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootQr), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Enlazamos las vistas por su ID
         barraSuperior = findViewById(R.id.barraSuperior);
         spSeleccionarEncuesta = findViewById(R.id.spSeleccionarEncuesta);
         tvEstadoQr = findViewById(R.id.tvEstadoQr);
@@ -65,32 +65,16 @@ public class QrActivity extends AppCompatActivity {
         btnProbarEnlace = findViewById(R.id.btnProbarEnlace);
         btnCompartirEnlace = findViewById(R.id.btnCompartirEnlace);
 
-        // Configuración del botón Volver al Panel
         if (barraSuperior != null) {
             barraSuperior.setNavigationOnClickListener(v -> finish());
         }
 
-        // Cargar encuestas en el Spinner selector
         cargarSpinnerEncuestas();
 
-        // Botón para probar el enlace en el navegador del celular
-        btnProbarEnlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                probarEnlace();
-            }
-        });
-
-        // Botón para compartir el enlace de Google Forms
-        btnCompartirEnlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                compartirEnlace();
-            }
-        });
+        btnProbarEnlace.setOnClickListener(v -> probarEnlace());
+        btnCompartirEnlace.setOnClickListener(v -> compartirEnlace());
     }
 
-    // Llena el desplegable con las encuestas guardadas en memoria
     private void cargarSpinnerEncuestas() {
         List<String> nombresEncuestas = new ArrayList<>();
         for (EncuestaConfig ec : DatosMemoria.listaEncuestasConfig) {
@@ -101,12 +85,10 @@ public class QrActivity extends AppCompatActivity {
             nombresEncuestas.add("Sin encuestas registradas");
         }
 
-        // Usamos nuestros layouts personalizados con texto oscuro y visible
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, nombresEncuestas);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spSeleccionarEncuesta.setAdapter(adapter);
 
-        // Seleccionamos por defecto la encuesta que esté activa
         int indexActiva = 0;
         for (int i = 0; i < DatosMemoria.listaEncuestasConfig.size(); i++) {
             if (DatosMemoria.listaEncuestasConfig.get(i).isActiva()) {
@@ -131,7 +113,7 @@ public class QrActivity extends AppCompatActivity {
         });
     }
 
-    // Actualiza los textos y el indicador de estado según la encuesta elegida
+    // Actualiza los textos, genera el código QR escaneable real y cambia el indicador de estado
     private void actualizarDetallesEncuesta() {
         if (encuestaSeleccionada != null) {
             tvTituloEncuestaActiva.setText(encuestaSeleccionada.getNombreEncuesta());
@@ -144,10 +126,39 @@ public class QrActivity extends AppCompatActivity {
                 tvEstadoQr.setText("ESTADO: INACTIVO");
                 tvEstadoQr.setTextColor(getColor(R.color.terracota));
             }
+
+            // Generar el código QR dinámico real utilizando la librería ZXing
+            generarCodigoQRReal(encuestaSeleccionada.getEnlaceGoogleForms());
         }
     }
 
-    // Abre el enlace de Google Forms en el navegador del teléfono
+    // Genera la imagen Bitmap del código QR en tiempo real para la URL indicada usando ZXing
+    private void generarCodigoQRReal(String url) {
+        if (url != null && !url.isEmpty()) {
+            try {
+                int width = 500;
+                int height = 500;
+                BitMatrix bitMatrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height);
+
+                int[] pixels = new int[width * height];
+                for (int y = 0; y < height; y++) {
+                    int offset = y * width;
+                    for (int x = 0; x < width; x++) {
+                        pixels[offset + x] = bitMatrix.get(x, y) ? 0xFF2D231E : 0xFFFFFFFF;
+                    }
+                }
+
+                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+                ivCodigoQr.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                ivCodigoQr.setImageResource(R.drawable.ic_qr_code);
+            }
+        } else {
+            ivCodigoQr.setImageResource(R.drawable.ic_qr_code);
+        }
+    }
+
     private void probarEnlace() {
         if (encuestaSeleccionada != null && encuestaSeleccionada.getEnlaceGoogleForms() != null
                 && !encuestaSeleccionada.getEnlaceGoogleForms().isEmpty()) {
@@ -162,7 +173,6 @@ public class QrActivity extends AppCompatActivity {
         }
     }
 
-    // Comparte el enlace directo mediante apps instaladas en el celular
     private void compartirEnlace() {
         if (encuestaSeleccionada != null && encuestaSeleccionada.getEnlaceGoogleForms() != null) {
             Intent sendIntent = new Intent();

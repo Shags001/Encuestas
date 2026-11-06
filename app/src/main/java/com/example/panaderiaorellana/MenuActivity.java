@@ -19,6 +19,7 @@ public class MenuActivity extends AppCompatActivity {
     private CardView tarjetaInfoUsuario;
     private TextView tvNombreUsuario;
     private TextView tvNombreSucursal;
+    private Button btnConfiguracion;
     private Button btnLogout;
 
     private CardView btnIrQr;
@@ -41,6 +42,7 @@ public class MenuActivity extends AppCompatActivity {
         tarjetaInfoUsuario = findViewById(R.id.tarjetaInfoUsuario);
         tvNombreUsuario = findViewById(R.id.tvNombreUsuario);
         tvNombreSucursal = findViewById(R.id.tvNombreSucursal);
+        btnConfiguracion = findViewById(R.id.btnConfiguracion);
         btnLogout = findViewById(R.id.btnLogout);
 
         btnIrQr = findViewById(R.id.btnIrQr);
@@ -55,6 +57,11 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuActivity.this, PerfilActivity.class);
             startActivity(intent);
         });
+
+        if (btnConfiguracion != null) {
+            btnConfiguracion.setOnClickListener(v ->
+                    startActivity(new Intent(MenuActivity.this, PerfilActivity.class)));
+        }
 
         btnLogout.setOnClickListener(v -> cerrarSesion());
 

@@ -24,22 +24,24 @@ import java.util.Locale;
 // Vista 5: Pantalla de Estadísticas, Gráficas y Semáforo
 public class EstadisticasActivity extends AppCompatActivity {
 
-    // Toolbar y selector libre de encuesta
     private MaterialToolbar barraSuperior;
     private Spinner spSeleccionarEncuestaEstadisticas;
 
-    // Componentes del Resumen General
+    // Sección A: Semáforo y Calidad (Escalas)
     private CardView tarjetaResumenGeneral;
     private TextView tvEtiquetaTurno;
     private TextView tvNotaPromedio;
     private View vistaSemaforo;
     private TextView tvEstadoSemaforo;
+    private LinearLayout containerGraficaEscalas;
 
-    // Contenedores visuales para gráficas y desglose
-    private LinearLayout graficaBarras;
-    private LinearLayout rvMetricasDetalladas;
+    // Sección B: Aprobación y Cumplimiento (Sí / No)
+    private TextView tvPorcentajeAprobacion;
+    private LinearLayout containerGraficaSiNo;
 
-    // Encuesta seleccionada actualmente
+    // Sección C: Bitácora de Observaciones
+    private LinearLayout containerNotasJustificantes;
+
     private EncuestaConfig encuestaSeleccionada = null;
 
     @Override
@@ -47,35 +49,36 @@ public class EstadisticasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
 
-        // Respetamos la barra de estado superior
+        DatosMemoria.inicializarDatos(this);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootEstadisticas), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Enlazamos las vistas con sus IDs
         barraSuperior = findViewById(R.id.barraSuperior);
         spSeleccionarEncuestaEstadisticas = findViewById(R.id.spSeleccionarEncuestaEstadisticas);
+
         tarjetaResumenGeneral = findViewById(R.id.tarjetaResumenGeneral);
         tvEtiquetaTurno = findViewById(R.id.tvEtiquetaTurno);
         tvNotaPromedio = findViewById(R.id.tvNotaPromedio);
         vistaSemaforo = findViewById(R.id.vistaSemaforo);
         tvEstadoSemaforo = findViewById(R.id.tvEstadoSemaforo);
+        containerGraficaEscalas = findViewById(R.id.containerGraficaEscalas);
 
-        graficaBarras = findViewById(R.id.graficaBarras);
-        rvMetricasDetalladas = findViewById(R.id.rvMetricasDetalladas);
+        tvPorcentajeAprobacion = findViewById(R.id.tvPorcentajeAprobacion);
+        containerGraficaSiNo = findViewById(R.id.containerGraficaSiNo);
 
-        // Botón Volver al Panel
+        containerNotasJustificantes = findViewById(R.id.containerNotasJustificantes);
+
         if (barraSuperior != null) {
             barraSuperior.setNavigationOnClickListener(v -> finish());
         }
 
-        // Cargamos el desplegable para elegir libremente la encuesta
         cargarSpinnerEncuestas();
     }
 
-    // Configura el selector de encuestas
     private void cargarSpinnerEncuestas() {
         List<String> nombresEncuestas = new ArrayList<>();
         for (EncuestaConfig ec : DatosMemoria.listaEncuestasConfig) {
@@ -90,11 +93,21 @@ public class EstadisticasActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spSeleccionarEncuestaEstadisticas.setAdapter(adapter);
 
+        int indexSucursal = 0;
+        for (int i = 0; i < DatosMemoria.listaEncuestasConfig.size(); i++) {
+            if (DatosMemoria.listaEncuestasConfig.get(i).getSucursal().equalsIgnoreCase(DatosMemoria.sucursalSeleccionada)) {
+                indexSucursal = i;
+                break;
+            }
+        }
+        spSeleccionarEncuestaEstadisticas.setSelection(indexSucursal);
+
         spSeleccionarEncuestaEstadisticas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position < DatosMemoria.listaEncuestasConfig.size()) {
                     encuestaSeleccionada = DatosMemoria.listaEncuestasConfig.get(position);
+                    DatosMemoria.sucursalSeleccionada = encuestaSeleccionada.getSucursal();
                     cargarReporteEstadistico();
                 }
             }
@@ -105,77 +118,85 @@ public class EstadisticasActivity extends AppCompatActivity {
         });
     }
 
-    // Calcula el reporte general exclusivo de la sucursal seleccionada con escala normalizada
+    // Procesa y separa limpiamente las preguntas de Escala (Semáforo) y las de Sí/No (Aprobación) para cada encuesta de forma aislada
     private void cargarReporteEstadistico() {
         if (encuestaSeleccionada == null) return;
 
+        String nombreEncuesta = encuestaSeleccionada.getNombreEncuesta();
         String sucursal = encuestaSeleccionada.getSucursal();
         String turno = DatosMemoria.turnoActual;
 
-        // Obtenemos el corte específico de esa sucursal
-        CorteTurno corte = DatosMemoria.getCorte(sucursal, turno);
+        // Obtenemos el corte único asociando el nombre de encuesta + sucursal + turno
+        CorteTurno corte = DatosMemoria.getCorte(nombreEncuesta, sucursal, turno);
 
         tvEtiquetaTurno.setText(String.format(Locale.getDefault(),
                 "%s (%s)\nTurno: %s | Total Encuestados: %d",
-                encuestaSeleccionada.getNombreEncuesta(), sucursal, corte.getTurno(), corte.getTotalRespuestas()));
+                nombreEncuesta, sucursal, corte.getTurno(), corte.getTotalRespuestas()));
 
-        // Calculamos el promedio normalizado (en escala de 10) para no distorsionar las escalas mixtas
-        double promedio = corte.getPromedioGeneral();
+        // 1. Procesar preguntas de Escala
+        procesarSeccionEscalas(corte);
 
-        if (promedio == 0.0) {
-            tvNotaPromedio.setText("Sin datos");
-            apagarSemaforo();
-            tvEstadoSemaforo.setText("Sin preguntas registradas en este turno");
-            tvEstadoSemaforo.setTextColor(getColor(R.color.cafe_negro));
-        } else {
-            tvNotaPromedio.setText(String.format(Locale.getDefault(), "%.1f / 10.0", promedio));
+        // 2. Procesar preguntas de Sí / No
+        procesarSeccionSiNo(corte);
 
-            // Actualizamos el Semáforo de Calidad sobre la escala estandarizada de 10
-            if (promedio >= 8.0) {
-                vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_verde_on));
-                tvEstadoSemaforo.setText("Servicio Óptimo - Excelente nivel de calidad");
-                tvEstadoSemaforo.setTextColor(getColor(R.color.semaforo_verde_on));
-            } else if (promedio >= 6.0) {
-                vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_amarillo_on));
-                tvEstadoSemaforo.setText("Precaución - Requiere atención en el turno");
-                tvEstadoSemaforo.setTextColor(getColor(R.color.cafe_negro));
-            } else {
-                vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_rojo_on));
-                tvEstadoSemaforo.setText("Crítico - Intervención operativa inmediata");
-                tvEstadoSemaforo.setTextColor(getColor(R.color.semaforo_rojo_on));
+        // 3. Procesar notas de Bitácora
+        procesarSeccionNotas(corte);
+    }
+
+    private boolean esPreguntaSiNo(PreguntaVaciada pv) {
+        if (pv == null) return false;
+        String tipo = pv.getTipoPregunta() != null ? pv.getTipoPregunta().toLowerCase() : "";
+        return tipo.contains("sí") || tipo.contains("si") || tipo.contains("dicotó") || tipo.contains("dicoto")
+                || (pv.getConteoSi() > 0 || pv.getConteoNo() > 0);
+    }
+
+    private void procesarSeccionEscalas(CorteTurno corte) {
+        containerGraficaEscalas.removeAllViews();
+
+        List<PreguntaVaciada> preguntasEscala = new ArrayList<>();
+        for (PreguntaVaciada pv : corte.getPreguntas()) {
+            if (!esPreguntaSiNo(pv)) {
+                preguntasEscala.add(pv);
             }
         }
 
-        // Dibujamos la Gráfica de Barras Comparativa
-        dibujarGraficaBarras(corte.getPreguntas());
+        if (preguntasEscala.isEmpty()) {
+            tvNotaPromedio.setText("N/A");
+            apagarSemaforo();
+            tvEstadoSemaforo.setText("Sin preguntas de escala registradas en este turno");
+            tvEstadoSemaforo.setTextColor(getColor(R.color.cafe_negro));
 
-        // Dibujamos las Métricas Detalladas
-        dibujarMetricasDetalladas(corte);
-    }
-
-    private void apagarSemaforo() {
-        vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.blanco_crema));
-    }
-
-    // Genera barras visuales proporcionales (porcentaje) para cada pregunta
-    private void dibujarGraficaBarras(List<PreguntaVaciada> preguntas) {
-        graficaBarras.removeAllViews();
-
-        if (preguntas == null || preguntas.isEmpty()) {
             TextView tvVacio = new TextView(this);
-            tvVacio.setText("No hay datos de preguntas para esta sucursal.");
+            tvVacio.setText("No hay preguntas de escala registradas para esta sucursal.");
             tvVacio.setTextColor(getColor(R.color.cafe_negro));
-            graficaBarras.addView(tvVacio);
+            containerGraficaEscalas.addView(tvVacio);
             return;
         }
 
-        for (PreguntaVaciada pv : preguntas) {
+        double promedio = corte.getPromedioGeneral();
+        tvNotaPromedio.setText(String.format(Locale.getDefault(), "%.1f / 10.0", promedio));
+
+        if (promedio >= 8.0) {
+            vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_verde_on));
+            tvEstadoSemaforo.setText("Servicio Óptimo - Excelente nivel de calidad");
+            tvEstadoSemaforo.setTextColor(getColor(R.color.semaforo_verde_on));
+        } else if (promedio >= 6.0) {
+            vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_amarillo_on));
+            tvEstadoSemaforo.setText("Precaución - Requiere atención en el turno");
+            tvEstadoSemaforo.setTextColor(getColor(R.color.cafe_negro));
+        } else {
+            vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.semaforo_rojo_on));
+            tvEstadoSemaforo.setText("Crítico - Intervención operativa inmediata");
+            tvEstadoSemaforo.setTextColor(getColor(R.color.semaforo_rojo_on));
+        }
+
+        for (PreguntaVaciada pv : preguntasEscala) {
             LinearLayout barItem = new LinearLayout(this);
             barItem.setOrientation(LinearLayout.VERTICAL);
             barItem.setPadding(0, 8, 0, 16);
 
             TextView tvNombre = new TextView(this);
-            tvNombre.setText(pv.getPregunta());
+            tvNombre.setText(pv.getPregunta() + String.format(Locale.getDefault(), " (%.1f / %s)", pv.getNotaEscala(), pv.getTipoPregunta().contains("1-10") ? "10" : "5"));
             tvNombre.setTextSize(14);
             tvNombre.setTextColor(getColor(R.color.cafe_negro));
             barItem.addView(tvNombre);
@@ -183,86 +204,85 @@ public class EstadisticasActivity extends AppCompatActivity {
             ProgressBar pb = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
             pb.setMax(100);
 
-            if (pv.getTipoPregunta().contains("Sí/No")) {
-                int perc = (int) pv.getPorcentajeSi();
-                pb.setProgress(perc);
-                pb.setProgressTintList(getColorStateList(R.color.marron_tostado));
-            } else if (pv.getTipoPregunta().contains("1-10")) {
-                int perc = (int) ((pv.getNotaEscala() / 10.0) * 100);
-                pb.setProgress(perc);
-                pb.setProgressTintList(getColorStateList(R.color.cafe_oscuro));
-            } else {
-                int perc = (int) ((pv.getNotaEscala() / 5.0) * 100);
-                pb.setProgress(perc);
-                pb.setProgressTintList(getColorStateList(R.color.cafe_oscuro));
-            }
+            int perc = (int) ((pv.getNotaNormalizada10() / 10.0) * 100);
+            pb.setProgress(perc);
+            pb.setProgressTintList(getColorStateList(R.color.cafe_oscuro));
 
             barItem.addView(pb);
-            graficaBarras.addView(barItem);
+            containerGraficaEscalas.addView(barItem);
         }
     }
 
-    // Genera las tarjetas con desgloses detallados e incluye las notas de bitácora
-    private void dibujarMetricasDetalladas(CorteTurno corte) {
-        rvMetricasDetalladas.removeAllViews();
-        List<PreguntaVaciada> preguntas = corte.getPreguntas();
+    private void procesarSeccionSiNo(CorteTurno corte) {
+        containerGraficaSiNo.removeAllViews();
 
-        for (PreguntaVaciada pv : preguntas) {
-            LinearLayout card = new LinearLayout(this);
-            card.setOrientation(LinearLayout.VERTICAL);
-            card.setPadding(16, 16, 16, 16);
-            card.setBackgroundColor(getColor(R.color.blanco_crema));
+        List<PreguntaVaciada> preguntasSiNo = new ArrayList<>();
+        int sumaSi = 0;
+        int sumaTotalVotos = 0;
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(0, 0, 0, 16);
-            card.setLayoutParams(params);
-
-            TextView tvP = new TextView(this);
-            tvP.setText(pv.getPregunta() + " (" + pv.getTipoPregunta() + ")");
-            tvP.setTextSize(14);
-            tvP.setTypeface(null, android.graphics.Typeface.BOLD);
-            tvP.setTextColor(getColor(R.color.cafe_negro));
-            card.addView(tvP);
-
-            TextView tvRes = new TextView(this);
-            if (pv.getTipoPregunta().contains("Sí/No")) {
-                tvRes.setText(String.format(Locale.getDefault(), "Aprobación: %.1f%% (Sí: %d / No: %d)",
-                        pv.getPorcentajeSi(), pv.getConteoSi(), pv.getConteoNo()));
-            } else if (pv.getTipoPregunta().contains("1-10")) {
-                tvRes.setText(String.format(Locale.getDefault(), "Nota Original: %.1f / 10.0 (Equiv. %.1f / 10)",
-                        pv.getNotaEscala(), pv.getNotaNormalizada10()));
-            } else {
-                tvRes.setText(String.format(Locale.getDefault(), "Nota Original: %.1f / 5.0 (Equiv. %.1f / 10)",
-                        pv.getNotaEscala(), pv.getNotaNormalizada10()));
-            }
-            tvRes.setTextSize(13);
-            tvRes.setTextColor(getColor(R.color.cafe_oscuro));
-            card.addView(tvRes);
-
-            rvMetricasDetalladas.addView(card);
-        }
-
-        // Mostramos las notas explicativas de bitácora de esa sucursal
-        if (!corte.getNotasIncidencias().isEmpty()) {
-            TextView tvHeaderNotas = new TextView(this);
-            tvHeaderNotas.setText("Justificantes / Notas del Turno:");
-            tvHeaderNotas.setTextSize(14);
-            tvHeaderNotas.setTypeface(null, android.graphics.Typeface.BOLD);
-            tvHeaderNotas.setTextColor(getColor(R.color.terracota));
-            tvHeaderNotas.setPadding(0, 16, 0, 8);
-            rvMetricasDetalladas.addView(tvHeaderNotas);
-
-            for (String nota : corte.getNotasIncidencias()) {
-                TextView tvN = new TextView(this);
-                tvN.setText("• " + nota);
-                tvN.setTextSize(13);
-                tvN.setTextColor(getColor(R.color.cafe_negro));
-                tvN.setPadding(0, 0, 0, 8);
-                rvMetricasDetalladas.addView(tvN);
+        for (PreguntaVaciada pv : corte.getPreguntas()) {
+            if (esPreguntaSiNo(pv)) {
+                preguntasSiNo.add(pv);
+                sumaSi += pv.getConteoSi();
+                sumaTotalVotos += (pv.getConteoSi() + pv.getConteoNo());
             }
         }
+
+        if (preguntasSiNo.isEmpty()) {
+            tvPorcentajeAprobacion.setText("N/A");
+            TextView tvVacio = new TextView(this);
+            tvVacio.setText("No hay preguntas de Sí / No registradas para esta sucursal.");
+            tvVacio.setTextColor(getColor(R.color.cafe_negro));
+            containerGraficaSiNo.addView(tvVacio);
+            return;
+        }
+
+        double porcentajeAprobacionGeneral = (sumaTotalVotos > 0) ? (sumaSi * 100.0 / sumaTotalVotos) : 0.0;
+        tvPorcentajeAprobacion.setText(String.format(Locale.getDefault(), "%.1f%% Aprobación General", porcentajeAprobacionGeneral));
+
+        for (PreguntaVaciada pv : preguntasSiNo) {
+            LinearLayout item = new LinearLayout(this);
+            item.setOrientation(LinearLayout.VERTICAL);
+            item.setPadding(0, 8, 0, 16);
+
+            TextView tvNombre = new TextView(this);
+            tvNombre.setText(pv.getPregunta() + String.format(Locale.getDefault(), " — Sí: %d | No: %d (%.1f%% Aprobación)", pv.getConteoSi(), pv.getConteoNo(), pv.getPorcentajeSi()));
+            tvNombre.setTextSize(14);
+            tvNombre.setTextColor(getColor(R.color.cafe_negro));
+            item.addView(tvNombre);
+
+            ProgressBar pb = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+            pb.setMax(100);
+            pb.setProgress((int) pv.getPorcentajeSi());
+            pb.setProgressTintList(getColorStateList(R.color.marron_tostado));
+
+            item.addView(pb);
+            containerGraficaSiNo.addView(item);
+        }
+    }
+
+    private void procesarSeccionNotas(CorteTurno corte) {
+        containerNotasJustificantes.removeAllViews();
+
+        if (corte.getNotasIncidencias().isEmpty()) {
+            TextView tvVacio = new TextView(this);
+            tvVacio.setText("No hay observaciones o justificantes registrados en este turno.");
+            tvVacio.setTextColor(getColor(R.color.cafe_negro));
+            containerNotasJustificantes.addView(tvVacio);
+            return;
+        }
+
+        for (String nota : corte.getNotasIncidencias()) {
+            TextView tvN = new TextView(this);
+            tvN.setText("• " + nota);
+            tvN.setTextSize(13);
+            tvN.setTextColor(getColor(R.color.cafe_negro));
+            tvN.setPadding(0, 0, 0, 8);
+            containerNotasJustificantes.addView(tvN);
+        }
+    }
+
+    private void apagarSemaforo() {
+        vistaSemaforo.setBackgroundTintList(getColorStateList(R.color.blanco_crema));
     }
 }

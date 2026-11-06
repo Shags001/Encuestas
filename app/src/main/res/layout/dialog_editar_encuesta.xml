@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Editar Encuesta de Google Forms"
+        android:textColor="@color/cafe_negro"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Nombre de la Encuesta:"
+        android:textColor="@color/cafe_negro"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/marron_tostado"
+        app:hintTextColor="@color/cafe_oscuro">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditNombreEncuesta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:textColor="@color/cafe_negro"
+            android:textColorHint="#888888" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:text="Sucursal Asignada:"
+        android:textColor="@color/cafe_negro"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:strokeColor="@color/marron_tostado"
+        app:strokeWidth="1.5dp">
+
+        <Spinner
+            android:id="@+id/spEditSucursalEncuesta"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:spinnerMode="dropdown" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:text="URL de Google Forms:"
+        android:textColor="@color/cafe_negro"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeColor="@color/marron_tostado"
+        app:hintTextColor="@color/cafe_oscuro">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEditEnlaceEncuesta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:textColor="@color/cafe_negro"
+            android:textColorHint="#888888" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botones de Acción del Diálogo (Alineados al 50% cada uno sin cortar texto) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogCancelar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="4dp"
+            android:text="Cancelar"
+            android:textColor="@color/blanco_crema"
+            android:textSize="14sp"
+            app:backgroundTint="@color/terracota"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogGuardar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="4dp"
+            android:text="Guardar"
+            android:textColor="@color/blanco_crema"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/cafe_oscuro"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

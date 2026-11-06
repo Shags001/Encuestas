@@ -6,26 +6,103 @@
         <item name="colorOnPrimary">@color/blanco_crema</item>
         <item name="colorPrimaryContainer">@color/marron_tostado</item>
         <item name="colorOnPrimaryContainer">@color/cafe_negro</item>
+        <item name="colorPrimaryInverse">@color/marron_tostado</item>
 
         <item name="colorSecondary">@color/marron_tostado</item>
         <item name="colorOnSecondary">@color/cafe_negro</item>
-        <item name="colorSecondaryContainer">#10D4A373</item>
+        <item name="colorSecondaryContainer">#30D4A373</item>
+        <item name="colorOnSecondaryContainer">@color/cafe_negro</item>
 
         <item name="colorTertiary">@color/marron_tostado</item>
+        <item name="colorOnTertiary">@color/cafe_negro</item>
+        <item name="colorTertiaryContainer">#30D4A373</item>
+        <item name="colorOnTertiaryContainer">@color/cafe_negro</item>
 
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/cafe_negro</item>
+        <item name="colorSurfaceVariant">@color/blanco_crema</item>
         <item name="colorOnSurfaceVariant">@color/cafe_negro</item>
+        <item name="colorSurfaceInverse">@color/cafe_negro</item>
+        <item name="colorOnSurfaceInverse">@color/blanco_crema</item>
+
+        <item name="colorOutline">@color/marron_tostado</item>
+        <item name="colorOutlineVariant">@color/marron_tostado</item>
 
         <item name="android:windowBackground">@color/blanco_crema</item>
         <item name="android:textColorPrimary">@color/cafe_negro</item>
         <item name="android:textColorSecondary">@color/cafe_oscuro</item>
 
-        <!-- Foco, cursores y resaltados de controles sin rastro de morado -->
+        <!-- Foco, cursores y resaltados de texto sin morado -->
         <item name="colorControlActivated">@color/marron_tostado</item>
         <item name="colorControlHighlight">#20D4A373</item>
+        <item name="colorControlNormal">@color/cafe_oscuro</item>
         <item name="colorAccent">@color/marron_tostado</item>
         <item name="android:colorAccent">@color/marron_tostado</item>
+        <item name="android:textColorHighlight">#30D4A373</item>
+
+        <!-- Diálogos emergentes (AlertDialog) -->
+        <item name="alertDialogTheme">@style/CustomAlertDialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/CustomAlertDialogTheme</item>
+
+        <!-- Switches y RadioButtons -->
+        <item name="materialSwitchStyle">@style/CustomSwitchStyle</item>
+        <item name="radioButtonStyle">@style/CustomRadioButtonStyle</item>
+
+        <!-- Estilos de cajas de texto -->
+        <item name="textInputStyle">@style/CustomTextInputLayout</item>
+    </style>
+
+    <!-- Tema Personalizado para AlertDialog -->
+    <style name="CustomAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/cafe_negro</item>
+        <item name="colorOnSurfaceVariant">@color/cafe_negro</item>
+        <item name="colorPrimary">@color/cafe_oscuro</item>
+        <item name="colorSecondary">@color/terracota</item>
+        <item name="android:textColorPrimary">@color/cafe_negro</item>
+
+        <item name="materialAlertDialogTitleTextStyle">@style/CustomDialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/CustomDialogBody</item>
+
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogPositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomDialogNegativeButton</item>
+    </style>
+
+    <style name="CustomDialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/cafe_negro</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomDialogBody" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/cafe_negro</item>
+    </style>
+
+    <style name="CustomDialogPositiveButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/cafe_oscuro</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomDialogNegativeButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/terracota</item>
+    </style>
+
+    <!-- Estilo Personalizado para Switches (MaterialSwitch) -->
+    <style name="CustomSwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbTint">@color/switch_thumb_colors</item>
+        <item name="trackTint">@color/switch_track_colors</item>
+    </style>
+
+    <!-- Estilo Personalizado para RadioButtons -->
+    <style name="CustomRadioButtonStyle" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/radio_button_tint</item>
+    </style>
+
+    <!-- Estilo Personalizado para TextInputLayout -->
+    <style name="CustomTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/marron_tostado</item>
+        <item name="hintTextColor">@color/cafe_oscuro</item>
+        <item name="cursorColor">@color/cafe_oscuro</item>
     </style>
 
     <style name="Theme.PanaderiaOrellana" parent="Base.Theme.PanaderiaOrellana" />

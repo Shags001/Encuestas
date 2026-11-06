@@ -3,15 +3,17 @@ package com.example.panaderiaorellana;
 import java.util.ArrayList;
 import java.util.List;
 
-// Modelo que representa el corte de un turno específico para una sucursal y encuesta
+// Modelo que representa el corte de un turno específico para una encuesta y sucursal
 public class CorteTurno {
+    private String nombreEncuesta;
     private String nombreSucursal;
     private String turno; // "Mañana" o "Tarde"
     private int totalRespuestas;
     private List<PreguntaVaciada> preguntas;
     private List<String> notasIncidencias;
 
-    public CorteTurno(String nombreSucursal, String turno, int totalRespuestas) {
+    public CorteTurno(String nombreEncuesta, String nombreSucursal, String turno, int totalRespuestas) {
+        this.nombreEncuesta = nombreEncuesta;
         this.nombreSucursal = nombreSucursal;
         this.turno = turno;
         this.totalRespuestas = totalRespuestas;
@@ -19,7 +21,21 @@ public class CorteTurno {
         this.notasIncidencias = new ArrayList<>();
     }
 
+    public String getNombreEncuesta() {
+        if (nombreEncuesta == null) {
+            nombreEncuesta = "Encuesta de Servicio";
+        }
+        return nombreEncuesta;
+    }
+
+    public void setNombreEncuesta(String nombreEncuesta) {
+        this.nombreEncuesta = nombreEncuesta;
+    }
+
     public String getNombreSucursal() {
+        if (nombreSucursal == null) {
+            nombreSucursal = "Sucursal Principal";
+        }
         return nombreSucursal;
     }
 
@@ -28,6 +44,9 @@ public class CorteTurno {
     }
 
     public String getTurno() {
+        if (turno == null) {
+            turno = "Mañana";
+        }
         return turno;
     }
 
@@ -44,10 +63,16 @@ public class CorteTurno {
     }
 
     public List<PreguntaVaciada> getPreguntas() {
+        if (preguntas == null) {
+            preguntas = new ArrayList<>();
+        }
         return preguntas;
     }
 
     public List<String> getNotasIncidencias() {
+        if (notasIncidencias == null) {
+            notasIncidencias = new ArrayList<>();
+        }
         return notasIncidencias;
     }
 
@@ -56,7 +81,7 @@ public class CorteTurno {
         double suma = 0;
         int cantidad = 0;
 
-        for (PreguntaVaciada p : preguntas) {
+        for (PreguntaVaciada p : getPreguntas()) {
             if (p.getNotaEscala() > 0) {
                 suma += p.getNotaNormalizada10();
                 cantidad++;
